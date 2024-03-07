@@ -2,3 +2,4 @@
 - Violin by Bismillah from <a href="https://thenounproject.com/browse/icons/term/violin/" target="_blank" title="Violin Icons">Noun Project</a> (CC BY 3.0)
 - Flute by Deemak Daksina from <a href="https://thenounproject.com/browse/icons/term/flute/" target="_blank" title="Flute Icons">Noun Project</a> (CC BY 3.0)
 - bass drum by Ben Hullinger from <a href="https://thenounproject.com/browse/icons/term/bass-drum/" target="_blank" title="bass drum Icons">Noun Project</a> (CC BY 3.0)
+- Orchestra Conductor by GiulioPN from <a href="https://thenounproject.com/browse/icons/term/orchestra-conductor/" target="_blank" title="Orchestra Conductor Icons">Noun Project</a> (CC BY 3.0)
