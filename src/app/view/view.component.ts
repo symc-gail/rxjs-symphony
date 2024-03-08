@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { BehaviorSubject, Subscription, mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, mergeMap, tap, map } from 'rxjs';
 import { InstrumentComponent } from '../instrument/instrument.component';
 import { InstrumentService } from '../services/instrument.service';
 import { LevelService } from '../services/level.service';
@@ -32,7 +32,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     audience: this.solutionService.solutionChecker,
     click$: this.click$.asObservable(),
     mergeMap,
-    tap
+    tap,
+    map
   }
 
   constructor(private instrumentService: InstrumentService, private levelService: LevelService, private solutionService: SolutionService) {}
