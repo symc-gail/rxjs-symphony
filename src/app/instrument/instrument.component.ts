@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { InstrumentService } from '../services/instrument.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, delay, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,11 +20,11 @@ export class InstrumentComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.note$ = this.instrumentService.getObservable(this.name);
-    this.subscriptions.add(this.note$.subscribe(_ => {
-      this.note?.nativeElement.classList.remove('toot');
-      void this.note?.nativeElement.offsetWidth;
-      this.note?.nativeElement.classList.add('toot');
-    }))
+    this.subscriptions.add(this.note$.pipe(
+      tap(_ => this.note?.nativeElement.classList.remove('toot')),
+      delay(1),
+      tap(_ => this.note?.nativeElement.classList.add('toot'))
+    ).subscribe())
   }
 
   ngOnDestroy(): void {
