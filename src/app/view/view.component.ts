@@ -3,6 +3,7 @@ import { BehaviorSubject, Subscription, mergeMap, tap } from 'rxjs';
 import { InstrumentComponent } from '../instrument/instrument.component';
 import { InstrumentService } from '../services/instrument.service';
 import { LevelService } from '../services/level.service';
+import { SolutionService } from '../services/solution.service';
 
 @Component({
   selector: 'app-view',
@@ -12,8 +13,6 @@ import { LevelService } from '../services/level.service';
   styleUrl: './view.component.scss'
 })
 export class ViewComponent implements OnInit, OnDestroy {
-  @Input() code: string = ''
-
   makeInstrument(name: string) {
     return {play: (sound: string) => {
       return this.instrumentService.play(name, sound);
@@ -30,12 +29,13 @@ export class ViewComponent implements OnInit, OnDestroy {
     strings: this.makeInstrument('strings'),
     brass: this.makeInstrument('brass'),
     percussion: this.makeInstrument('percussion'),
+    audience: this.solutionService.solutionChecker,
     click$: this.click$.asObservable(),
     mergeMap,
     tap
   }
 
-  constructor(private instrumentService: InstrumentService, private levelService: LevelService) {}
+  constructor(private instrumentService: InstrumentService, private levelService: LevelService, private solutionService: SolutionService) {}
 
   ngOnInit(): void {
     this.subscriptions.add(this.levelService.code$.subscribe(code => {
@@ -59,17 +59,4 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.currentSubscription.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-      if(changes['code'] && changes['code'].currentValue && typeof changes['code'].currentValue === 'string') {
-        try {
-          this.currentSubscription.unsubscribe();
-          this.currentSubscription = new Subscription();
-          console.log('code is', `with (this) { return (${changes['code'].currentValue}) }` )
-          this.currentSubscription.add(new Function(`with (this) { return (${changes['code'].currentValue}) }`).call(this.context));
-          console.log(this.currentSubscription);
-        } catch {
-          // just eat it
-        }
-      }
-  }
 }

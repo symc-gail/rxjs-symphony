@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ViewComponent } from './view/view.component';
 import { LevelService } from './services/level.service';
+import { ClickService } from './services/click.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +14,15 @@ import { LevelService } from './services/level.service';
 })
 export class AppComponent implements OnInit{
   title = 'rxjs-symphony';
-  code = '';
 
-  constructor(private levelService: LevelService) {}
+  constructor(private levelService: LevelService, private clickService: ClickService) {}
 
   ngOnInit(): void {
       this.levelService.initFromLocalStorage();
+  }
+
+  @HostListener('document:click', ['$event'])
+  documentClick(event: any): void {
+    this.clickService.documentClicked(event);
   }
 }

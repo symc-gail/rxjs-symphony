@@ -4,6 +4,7 @@ import { LevelStatus } from '../interfaces/level';
 import { levelData } from '../data/level-data';
 import { LocalStorageService } from './local-storage.service';
 
+const defaultLevels = () => levelData.map(_ => ({completed: false, code: ''}))
 
 const DATA_STORAGE_KEY = "RXJS-SYMPHONY-LEVEL-DATA";
 const LEVEL_STORAGE_KEY = "RXJS-SYMPHONY-CURRENT-LEVEL";
@@ -14,20 +15,7 @@ const LEVEL_STORAGE_KEY = "RXJS-SYMPHONY-CURRENT-LEVEL";
 export class LevelService {
   private loaded = false;
 
-  private levels: LevelStatus[] = [{
-    completed: false,
-    code: '',
-  }, {
-    completed: false,
-    code: ''
-  }, {
-    completed: false,
-    code: ''
-  }, {
-    completed: false,
-    code: ''
-  }]
-
+  private levels: LevelStatus[] = defaultLevels();
   private currentLevel$ = new BehaviorSubject(0);
   private currentCode$ = new BehaviorSubject('');
   // this is slightly different from CurrentCode - it only fires on level switch
@@ -48,6 +36,12 @@ export class LevelService {
     return this.level$.pipe(
       map(level => levelData[level])
     );
+  }
+
+  get currentLevelCompleted$() {
+    return this.level$.pipe(
+      map(level => this.levels[level].completed)
+    )
   }
 
   get levelsForDisplay$() {
@@ -119,13 +113,46 @@ export class LevelService {
   initFromLocalStorage() {
     const storedData = this.localStorageService.get(DATA_STORAGE_KEY);
     if (storedData) {
-      this.levels = JSON.parse(storedData);
+      const levels = JSON.parse(storedData);
+      // check length against the current level data, only load if it's the same
+      if (levels.length === levelData.length) {
+        this.levels = levels;
+      }
+      // if there are now more levels, replace
+      else if (levels.length < levelData.length) {
+        this.levels.splice(0,levels.length, ...levels)
+      }
+      // otherwise truncate the levels
+      else {
+        this.levels = levels.slice(0, levelData.length)
+      }
     }
     const storedLevel = this.localStorageService.get(LEVEL_STORAGE_KEY);
     if(storedLevel) {
-      this.setLevel(parseInt(storedLevel));
+      // make sure it's a valid level, otherwise use the first one
+      let level = parseInt(storedLevel);
+      if(level >= levelData.length) {
+        level = 0;
+      }
+      this.setLevel(level);
     }
     this.loaded = true;
+  }
+
+  reset() {
+    this.loaded = false;
+    this.localStorageService.clear();
+    this.levels = defaultLevels();
+    this.setLevel(0);
+    this.loaded = true;
+  }
+
+  completeCurrentLevel(completed: boolean) {
+    if(completed) {
+      const currentLevel = this.currentLevel$.value
+      this.levels[currentLevel].completed = completed;
+      this.saveDataToLocalStorage();
+    }
   }
 
 }

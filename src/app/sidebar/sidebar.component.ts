@@ -11,6 +11,4 @@ import { EditorComponent } from '../editor/editor.component';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  @Output() codeChanged = new EventEmitter<string>();
-
 }

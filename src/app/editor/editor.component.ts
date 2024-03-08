@@ -43,6 +43,20 @@ export class EditorComponent implements OnInit, AfterContentInit, OnDestroy {
     return this.code$.pipe(map(c => c.after));
   }
 
+  get nextDisabled$() {
+    return this.levelService.currentLevelCompleted$.pipe(map(completed => !completed))
+  }
+
+  get nextClasses$() {
+    return this.levelService.currentLevelCompleted$.pipe(
+      map(completed => ({
+        danger: true,
+        'animate__animated animate__tada': completed,
+        'disabled': !completed
+      }))
+    )
+  }
+
   ngOnInit(): void {
     this.subscriptions.add(this.code.valueChanges.subscribe(code => this.levelService.saveCode(code ?? '')));
     this.subscriptions.add(this.levelService.savedCode$.asObservable().subscribe(savedCode => {
@@ -56,5 +70,9 @@ export class EditorComponent implements OnInit, AfterContentInit, OnDestroy {
 
   ngOnDestroy(): void {
       this.subscriptions.unsubscribe();
+  }
+
+  nextLevel() {
+    this.levelService.nextLevel();
   }
 }

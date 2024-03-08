@@ -38,6 +38,10 @@
     cursor: pointer;
 }
 
+.level-indicator:hover {
+background-color: rgba(255, 255, 255, 0.4);
+}
+
 .triangle {
   display: inline-block;
   width: 0;
@@ -64,15 +68,33 @@
   z-index: 80;
 }
 
-.tooltip {
-  position: absolute;
-  display: inline-block;
-  max-width: 350px;
+.tooltip, dialog {
+
   padding: 1em 1em;
   background-color: #2c3e50;
   border-radius: 4px;
   font-size: 12px;
   line-height: 1.5;
+}
+
+dialog {
+  color: white;
+  border: none;
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+
+    button {
+      margin-left: 5px;
+    }
+  }
+}
+
+.tooltip {
+  position: absolute;
+  display: inline-block;
+  max-width: 350px;
   z-index: 60;
 }
 
@@ -122,4 +144,11 @@
 .caret {
   display: inline-block;
   margin-left: 2px;
+}
+
+.reset {
+  margin-top: 1em;
+  cursor: pointer;
+  text-align: center;
+
 }

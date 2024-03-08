@@ -15,6 +15,7 @@
     <pre><ng-container *ngTemplateOutlet="beforeTpl ? beforeTpl : defaultBeforeTpl"></ng-container></pre>
     <textarea [formControl]="code" id="code" autofocus autocapitalize="none" [style]="textareaStyle$ | async"></textarea>
     <pre><ng-container *ngTemplateOutlet="afterTpl ? afterTpl : defaultAfterTpl"></ng-container></pre>
+    <button class="next" [ngClass]="nextClasses$ | async" [disabled]="nextDisabled$ | async" (click)="nextLevel()">Next</button>
   </div>
 </div>
 <ng-template #defaultBeforeTpl>

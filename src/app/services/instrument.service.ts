@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 
 type InstrumentSubjects = {
   [key: string]: BehaviorSubject<string>
@@ -26,7 +26,9 @@ export class InstrumentService {
     const subj = this.subjects[instrument];
     if(subj) {
       subj.next(note ?? 'toot');
-      return subj.asObservable();
+      return subj.asObservable().pipe(
+        map(note => `${instrument}:${note}`)
+      );
     }
     return of(null);
   }

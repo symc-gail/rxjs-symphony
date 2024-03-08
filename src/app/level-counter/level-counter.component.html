@@ -1,7 +1,7 @@
 <div class="arrow left" role="button" (click)="levelService.previousLevel()">
   <span class="triangle"></span>
 </div>
-<div class="level-indicator" (click)="toggleVisible()">
+<div #levelIndicator class="level-indicator" (click)="toggleVisible($event)">
   Level {{ ((levelService.level$ | async) ?? 0) + 1 }} of
   {{ levelService.totalLevels }}
   <span class="caret">▾</span>
@@ -9,7 +9,7 @@
 <div class="arrow right" role="button" (click)="levelService.nextLevel()">
   <span class="triangle"></span>
 </div>
-<div id="levelsWrapper" class="tooltip" [style]="levelsStyle">
+<div #levelsWrapper id="levelsWrapper" class="tooltip" [style]="levelsStyle">
   <div class="levels">
     <span
       class="level-marker"
@@ -21,4 +21,13 @@
       {{ level.name }}
     </span>
   </div>
+  <div class="reset" (click)="resetConfirm()" role="button">Reset</div>
 </div>
+<dialog #dialog>
+  <p>Are you sure you want to reset the game?</p>
+  <p>Your saved progress will be lost and you'll be sent to the start of the game.</p>
+  <div class="buttons">
+    <button (click)="cancelReset()">Cancel</button>
+    <button (click)="reset()" class="danger">Reset</button>
+  </div>
+</dialog>

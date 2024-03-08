@@ -15,35 +15,23 @@ export const levelData: Level[] = [
     code: {
       before: "click$.pipe(",
       lines: 1,
-      after: ").subscribe()"
+      after: ").subscribe(audience)"
     },
-    solution: "mergeMap(_ => woodwinds.play())"
+    solution: "woodwinds:toot"
   },
   {
-    instructions: `This is level 2`,
+    instructions: `
+<p>Now try to make the strings play "twang".</p>
+<ul>
+  <li><code>strings</code> is the name of the string instruments</li>
+  <li><code>play</code> takes a single argument that represents the noise that should be played</li>
+</ul>
+`,
     code: {
-      before: "foo",
-      lines: 3,
-      after: "bar"
+      before: "click$.pipe(",
+      lines: 1,
+      after: ").subscribe(audience)"
     },
-    solution: "lalala"
-  },
-  {
-    instructions: `This is level 3`,
-    code: {
-      before: "foo",
-      lines: 3,
-      after: "bar"
-    },
-    solution: "lalala"
-  },
-  {
-    instructions: `This is level 4`,
-    code: {
-      before: "foo",
-      lines: 3,
-      after: "bar"
-    },
-    solution: "lalala"
+    solution: "strings:twang"
   },
 ]
