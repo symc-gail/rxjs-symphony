@@ -13,13 +13,13 @@
       10
     </div>
     <pre><ng-container *ngTemplateOutlet="beforeTpl ? beforeTpl : defaultBeforeTpl"></ng-container></pre>
-    <textarea [formControl]="code" id="code" autofocus autocapitalize="none" [style]="textareaStyle"></textarea>
+    <textarea [formControl]="code" id="code" autofocus autocapitalize="none" [style]="textareaStyle$ | async"></textarea>
     <pre><ng-container *ngTemplateOutlet="afterTpl ? afterTpl : defaultAfterTpl"></ng-container></pre>
   </div>
 </div>
 <ng-template #defaultBeforeTpl>
-  {{before}}
+  {{before$ | async}}
 </ng-template>
 <ng-template #defaultAfterTpl>
-  {{after}}
+  {{after$ | async}}
 </ng-template>

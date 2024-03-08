@@ -1,1 +1,24 @@
-<p>This will be a level counter</p>
+<div class="arrow left" role="button" (click)="levelService.previousLevel()">
+  <span class="triangle"></span>
+</div>
+<div class="level-indicator" (click)="toggleVisible()">
+  Level {{ ((levelService.level$ | async) ?? 0) + 1 }} of
+  {{ levelService.totalLevels }}
+  <span class="caret">▾</span>
+</div>
+<div class="arrow right" role="button" (click)="levelService.nextLevel()">
+  <span class="triangle"></span>
+</div>
+<div id="levelsWrapper" class="tooltip" [style]="levelsStyle">
+  <div class="levels">
+    <span
+      class="level-marker"
+      *ngFor="let level of levelService.levelsForDisplay$ | async"
+      [ngClass]="{ solved: level.completed, current: level.current }"
+      role="button"
+      (click)="levelService.setLevel(level.goTo)"
+    >
+      {{ level.name }}
+    </span>
+  </div>
+</div>

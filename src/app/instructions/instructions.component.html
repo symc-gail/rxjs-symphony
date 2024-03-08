@@ -1,10 +1,2 @@
-<div class="instructions">
-<p>
-  Welcome to Rxjs Symphony, a game where you make music by learning about Rxjs! Make the woodwinds play a note
-  when you click the screen using the <code>mergeMap</code> operator.
-</p>
-<ul>
-  <li><code>mergeMap</code> takes a function with one input that returns an observable</li>
-  <li><code>woodwinds</code> has a method <code>play</code> that, when called, returns an observable and plays a note</li>
-</ul>
+<div class="instructions" [innerHTML]="instructions$ | async">
 </div>
