@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { BehaviorSubject, Subscription, mergeMap, tap } from 'rxjs';
 import { InstrumentComponent } from '../instrument/instrument.component';
 import { InstrumentService } from '../services/instrument.service';
+import { LevelService } from '../services/level.service';
 
 @Component({
   selector: 'app-view',
@@ -10,7 +11,7 @@ import { InstrumentService } from '../services/instrument.service';
   templateUrl: './view.component.html',
   styleUrl: './view.component.scss'
 })
-export class ViewComponent implements OnChanges {
+export class ViewComponent implements OnInit, OnDestroy {
   @Input() code: string = ''
 
   makeInstrument(name: string) {
@@ -21,6 +22,7 @@ export class ViewComponent implements OnChanges {
 
   click$ = new BehaviorSubject('click');
   currentSubscription = new Subscription();
+  subscriptions = new Subscription();
 
 
   context = {
@@ -33,7 +35,29 @@ export class ViewComponent implements OnChanges {
     tap
   }
 
-  constructor(private instrumentService: InstrumentService) {}
+  constructor(private instrumentService: InstrumentService, private levelService: LevelService) {}
+
+  ngOnInit(): void {
+    this.subscriptions.add(this.levelService.code$.subscribe(code => {
+      if(code) {
+        try {
+          this.currentSubscription.unsubscribe();
+          this.currentSubscription = new Subscription();
+          console.log('code is', `with (this) { return (${code}) }` )
+          this.currentSubscription.add(new Function(`with (this) { return (${code}) }`).call(this.context));
+          console.log(this.currentSubscription);
+        } catch {
+          // just eat it
+        }
+
+      }
+    }))
+  }
+
+  ngOnDestroy(): void {
+      this.subscriptions.unsubscribe();
+      this.currentSubscription.unsubscribe();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
       if(changes['code'] && changes['code'].currentValue && typeof changes['code'].currentValue === 'string') {

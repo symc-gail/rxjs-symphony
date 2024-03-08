@@ -44,9 +44,10 @@ export class EditorComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   this.subscriptions.add( combineLatest([this.code.valueChanges, this.before$, this.after$]).pipe(
-      map(([code, before, after]) => `${before}${code}${after}`)
-    ).subscribe(code => this.change.emit(code)));
+    this.subscriptions.add(this.code.valueChanges.subscribe(code => this.levelService.saveCode(code ?? '')));
+    this.subscriptions.add(this.levelService.savedCode$.asObservable().subscribe(savedCode => {
+      this.code.setValue(savedCode);
+    }))
   }
 
   ngAfterContentInit() {
