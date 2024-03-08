@@ -18,6 +18,7 @@ export class LevelService {
   private levels: LevelStatus[] = defaultLevels();
   private currentLevel$ = new BehaviorSubject(0);
   private currentCode$ = new BehaviorSubject('');
+  private checkCompleted$ = new BehaviorSubject(0);
   // this is slightly different from CurrentCode - it only fires on level switch
   savedCode$ = new BehaviorSubject('');
 
@@ -39,8 +40,8 @@ export class LevelService {
   }
 
   get currentLevelCompleted$() {
-    return this.level$.pipe(
-      map(level => this.levels[level].completed)
+    return combineLatest([this.level$, this.checkCompleted$]).pipe(
+      map(([level, _]) => this.levels[level].completed)
     )
   }
 
@@ -152,6 +153,7 @@ export class LevelService {
       const currentLevel = this.currentLevel$.value
       this.levels[currentLevel].completed = completed;
       this.saveDataToLocalStorage();
+      this.checkCompleted$.next(this.checkCompleted$.value + 1)
     }
   }
 

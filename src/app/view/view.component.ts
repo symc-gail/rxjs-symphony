@@ -19,6 +19,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     }}
   }
 
+  yay="";
+
   click$ = new BehaviorSubject('click');
   currentSubscription = new Subscription();
   subscriptions = new Subscription();
@@ -53,6 +55,9 @@ export class ViewComponent implements OnInit, OnDestroy {
 
       }
     }))
+    this.subscriptions.add(this.levelService.currentLevelCompleted$.pipe(
+      map(completed => this.yay = completed ? "YAY!" : ""),
+    ).subscribe())
   }
 
   ngOnDestroy(): void {
