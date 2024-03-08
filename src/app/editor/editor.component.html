@@ -1,0 +1,25 @@
+<div class="editor">
+  <div class="editor-body">
+    <div class="line-numbers">
+      1 <br/>
+      2 <br/>
+      3 <br/>
+      4 <br/>
+      5 <br/>
+      6 <br/>
+      7 <br/>
+      8 <br/>
+      9 <br/>
+      10
+    </div>
+    <pre><ng-container *ngTemplateOutlet="beforeTpl ? beforeTpl : defaultBeforeTpl"></ng-container></pre>
+    <textarea [formControl]="code" id="code" autofocus autocapitalize="none" [style]="textareaStyle"></textarea>
+    <pre><ng-container *ngTemplateOutlet="afterTpl ? afterTpl : defaultAfterTpl"></ng-container></pre>
+  </div>
+</div>
+<ng-template #defaultBeforeTpl>
+  {{before}}
+</ng-template>
+<ng-template #defaultAfterTpl>
+  {{after}}
+</ng-template>

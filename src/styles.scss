@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=VT323&display=swap');
+
+app-root {
+  display: flex;
+  background-color: palevioletred;
+  min-width: 600px;
+  font-family: 'PT Sans', sans-serif;
+  color: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+html, body, app-root {
+  height: 100%;
+}
+
+a {
+  color: rgba(255,255,255,0.7);
+}
+
+a:hover {
+  color: white;
+}

@@ -1,0 +1,38 @@
+#board {
+  position: sticky;
+  top: 0;
+  width: 50vw;
+  height: 50vw;
+  min-width: 300px;
+  min-height: 300px;
+  max-width: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: tan;
+}
+
+.musicians, .conductor, .audience {
+  height: 200px;
+  display: flex;
+  flex-basis: 100%;
+  padding: 1rem;
+
+  img {
+    height: 200px;
+    flex: 0 1 200px;
+  }
+}
+
+.musicians {
+  justify-content: space-around;
+}
+
+.conductor {
+  justify-content: center;
+}
+
+.audience {
+  justify-content: space-between;
+}
